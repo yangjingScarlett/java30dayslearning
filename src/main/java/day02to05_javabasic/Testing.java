@@ -9,29 +9,74 @@ import java.util.Set;
 public class Testing {
 
   public static void main(String[] args) {
-    int[] nums = {0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 6, 6, 7, 8, 8, 8};
-    //check(nums);
-    //uniqueNum(nums);
-    //uniqueNum2(nums);
-    recordFrequency(nums);
+    int[] arr = {0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 6, 6, 7, 8, 8, 8};
+    recordFrequency(arr);
+    recordFrequency2(arr);
+    recordFrequency3(arr);
+    // uniqueNum(arr);
+    // uniqueNum2(arr);
   }
 
   /**
    * record the unique num and its frequency in the array
    *
-   * @param nums given array with ascending numbers
+   * @param num given array with ascending numbers
    */
-  static void check(int[] nums) {
+  static void recordFrequency(int[] num) {
     Map<Integer, Integer> freq = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-      if (freq.get(nums[i]) != null) {
-        freq.put(nums[i], freq.get(nums[i]) + 1);
+    for (int i = 0; i < num.length; i++) {
+      if (freq.containsKey(num[i])) {
+        freq.put(num[i], freq.get(num[i]) + 1);
       } else {
-        freq.put(nums[i], 1);
+        freq.put(num[i], 1);
       }
     }
     System.out.println(freq);
   }
+
+
+  /**
+   * record the unique num and its frequency in the array.
+   * <p>
+   * 1. create an array to record the frequency of each num 2. use the index as the num, and the
+   * value as its frequency
+   *
+   * @param num given array with ascending num
+   */
+  static void recordFrequency2(int[] num) {
+    int[] freq = new int[num.length];
+    int current = 0, n = 0;
+    for (int i = 0; i < num.length; i++) {
+      if (num[i] == current) {
+        n++;
+      } else {
+        freq[current] = n;
+        while (num[i] != current) {
+          current++;
+        }
+        n = 1;
+      }
+    }
+    freq[current] = n;
+    System.out.println(Arrays.toString(freq));
+  }
+
+  /**
+   * record the frequency of each num in the array
+   * <p>
+   * 1. create an array to record the frequency of each num 2. use the index as the num, and the
+   * value as its frequency
+   *
+   * @param num given array with ascending numbers
+   */
+  static void recordFrequency3(int[] num) {
+    int[] freq = new int[num.length];
+    for (int i = 0; i < num.length; i++) {
+      freq[num[i]] = freq[num[i]] + 1;
+    }
+    System.out.println(Arrays.toString(freq));
+  }
+
 
   /**
    * get the unique number in the array
@@ -66,19 +111,4 @@ public class Testing {
     System.out.println(Arrays.toString(uniqueArr));
   }
 
-  /**
-   * record the frequency of each num in the array
-   * <p>
-   * 1. create an array to record the frequency of each num 2. use the index as the num, and the
-   * value as its frequency
-   *
-   * @param nums given array with ascending numbers
-   */
-  static void recordFrequency(int[] nums) {
-    int[] freq = new int[nums.length];
-    for (int i = 0; i < nums.length; i++) {
-      freq[nums[i]] = freq[nums[i]] + 1;
-    }
-    System.out.println(Arrays.toString(freq));
-  }
 }

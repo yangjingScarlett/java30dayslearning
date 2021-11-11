@@ -3,8 +3,16 @@ package day02to05_javabasic;
 public class ArrayExam3 {
 
   public static void main(String[] args) {
-    int[] arr = {23, 34, 56, 78, 79, 80, 83, 85, 91, 99};
-    int index = binarySearch(arr, 91);
+    int[] arr = new int[10];
+    for (int i = 0; i < arr.length; i++) {
+      if (i == 0) {
+        arr[i] = (int) (Math.random() * 100);
+      } else {
+        arr[i] = (int) (arr[i - 1] + Math.random() * 10);
+      }
+    }
+    printArray(arr);
+    int index = binarySearch(arr, arr[6]);
     System.out.println(index);
   }
 
@@ -17,7 +25,7 @@ public class ArrayExam3 {
   public static int binarySearch(int[] arr, int key) {
     // 定义起始位置，结尾位置，和中间位置
     int begin = 0;
-    int end = arr.length;
+    int end = arr.length - 1;
 
     while (begin <= end) {
       int mid = (begin + end) / 2;
@@ -30,6 +38,18 @@ public class ArrayExam3 {
       }
     }
     return -1;
+  }
+
+
+  public static void printArray(int[] arr) {
+    System.out.print("[");
+    for (int i = 0; i < arr.length; i++) {
+      if (i != arr.length - 1) {
+        System.out.print(arr[i] + ", ");
+      } else {
+        System.out.println(arr[i] + "]");
+      }
+    }
   }
 
 }

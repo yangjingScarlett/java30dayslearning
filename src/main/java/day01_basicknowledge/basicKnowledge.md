@@ -35,38 +35,48 @@ Java 之父 -- JamesGosling（詹姆斯·高斯林）
 |中间件                 |OAS，收购BEA得WebLogic    |IIS
 |编程语言               |PLSQL，收购SUN得到JAVA    |.NET
 
-- Java 语言的三种技术架构  
-J2SE(Java 2Platform Standard Edition): 标准版，开发普通的应用程序，比较基础，是另外两种体系的基础。  
-J2EE(Java 2Platform Enterprise Edition): 为开发企业环境下的应用程序提供的一套解决方案，该体系中包含的
+### Java 语言的三种技术架构  
+- **J2SE(Java 2Platform Standard Edition):** 标准版，开发普通的应用程序，比较基础，是另外两种体系的基础。  
+- **J2EE(Java 2Platform Enterprise Edition):** 为开发企业环境下的应用程序提供的一套解决方案，该体系中包含的
 技术如 Servlet, JSP 等，主要针对Web应用程序开发。  
-J2ME(Java 2Platform Micro Edition): 小型版，开发电子消费产品和嵌入式设备。主要针对于小型电子消费产品，如手机
+- **J2ME(Java 2Platform Micro Edition):** 小型版，开发电子消费产品和嵌入式设备。主要针对于小型电子消费产品，如手机
 中的应用程序等。（现在已经不适用了，因为手机都有了自己的操作系统）  
+Java5.0之后，更名为 **JAVAEE, JAVASE, JAVAME**  
 
-  Java5.0之后，更名为 **JAVAEE, JAVASE, JAVAME**  
+### Java程序的运行机制  
+Java语言是一种计算机高级语言。计算机高级语言按照程序的执行方式分为<font color="yellow">**编译型语言**和**解释型语言**</font>。  
+- 编译型语言是指使用专门的编译器，针对平台（操作系统）将源代码一次性编译成平台可以直接识别并执行的机器码。  
+编译生成的可执行性程序可以脱离开发环境在特定平台上独立运行。我们所知的C, C++, Objective-C, Swift, Kotlin等语言都是编译型语言。  
+- 解释型语言是指使用专门的解释器，针对平台<mark>逐行解释代码并立即执行</mark>的过程。解释型语言通常不会进行整体性的编译和链接处理。
+它相当于把编译型语言中的编译和解释过程混合在一起。  
+可以认为，每次执行解释型语言的程序都需要进行一次编译，比如，一段有好多行的解释型语言的代码，逐行执行就意味着每一行都需要单独的
+编译。因此解释型语言的程序运行效率比减低。Javascript, Python及Ruby都属于解释型语言。  
 
-- Java 语言的跨平台特点  
-用java语言编写的应用程序在不同的系统平台上都能运行。 为什么？ 而且为什么 C++ 就不能跨平台？  
-C++编写的应用程序可以在 Windows 操作系统上直接运行，这是因为 Windows 操作系统本身就是由 C 和 C++ 编写的，
-所以它本来就可以读懂 C++ 语言，自然也能直接运行 C++ 应用程序。  
-那么 Windows 系统和 Linux 系统 本身都不能读懂 java 语言，所以如果它们想运行 java 编写的应用程序，必须先
-想办法让它们读懂 java 语言。SUN 公司开发的 JVM 就是这个目的。JVM(Java Virtual Machine, java虚拟机) 是一个
-能解释并执行 java应用程序的应用软件。  
-所以 java语言的跨平台性是有前提的，所有的操作系统如果想执行java应用程序，必须先安装该应用系统的JVM。  
+而Java语言比较特殊，必须进行先编译后解释的过程。Java源代码首先经由编译器编译生成与平台无关的字节码（.class文件）。但是
+这个文件不能直接被平台执行，而要经过特定的Java解释器来解释执行。  
+所以Java语言既是编译型语言又是解释型语言，或者说它既不是单纯的编译型语言，也不是单纯的解释型语言。  
+![](.basicKnowledge_images/d2bc4f8d.png)  
+
+大家都说用java语言编写的应用程序在不同的系统平台上都能运行，也就是Java可以跨平台。那么这是为什么？背后的原理是什么？   
+<mark>Java应用程序是指编译Java后得到的字节码文件打包后的应用程序，而不是Java源代码。</mark>  
+要运行Java应用程序就要有Java解释器，那么Windows 系统和 Linux 系统都没有 java 语言的解释器，它们如何运行 java 编写的应用程序呢？  
+SUN 公司开发的 JVM 就是这个目的。<mark>JVM(Java Virtual Machine, java虚拟机)是一个能解释并执行 java应用程序的应用软件。</mark>    
+所以 java语言的跨平台性是有前提的，所有的操作系统如果想执行java应用程序，必须先安装该应用系统对应的JVM。  
 
 - Java 语言的环境搭建  
-前面我们知道了，java应用程序必须通过JVM来解释和执行，所以在开发java应用程序之前，我们必须先在操作系统上搭建好
-所需的环境。不仅是java，任何一种开发语言都需要特定的环境来运行，所以在写代码之前都要先搭建环境。  
+前面我们知道了，java应用程序必须通过JVM来解释和执行，所以在运行java应用程序之前，我们必须先安装JVM。但是实际上我们不会直接安装JVM，
+而是会先在操作系统上安装JDK并搭建好所需的环境。不仅是java，任何一种开发语言都需要特定的环境来运行，所以在写代码之前都要先搭建环境。  
 
   首先来了解几个概念：  
-  **JRE(Java Runtime Environment, java运行环境)**： 它包括 JVM 和java程序所需的核心类库。如果想运行一个开发好
-  的java应用程序，计算机中只需要安装JRE即可。  
+  **JRE(Java Runtime Environment, java运行环境)**： 它包括 JVM 和运行Java程序的其他环境支持，如类加载器、字节码文件
+  校验器和大量的基础类库。如果想运行一个别人开发好的java应用程序，计算机中只需要安装JRE即可。  
   但是如果不仅需要运行应用程序，还要开发应用程序，那么只有 JRE 就不够了，还需要JDK。  
   
-  **JDK(Java Development Kit, java开发程序包)**： 它包括java的开发工具（如编译工具javac.exe 和打包工具jar.exe等），
+  **JDK(Java SE Development Kit, java标准开发程序包)**： 它包括java的开发工具（如编译工具javac.exe 和打包工具jar.exe等），
   也包括 JRE。所以安装了JDK后就不用单独安装JRE了。  
   JDK为什么会包括JRE呢？ 第一，开发完程序后，总要运行一下看看效果。第二，也是最重要的是，JDK中的开发工具本质上也是
   java应用程序，为了方便使用才把这些工具打包成exe文件。所以为了使用这些工具，也需要JRE的支持。
-  >JRE = JVM + Java核心类库  
+  >JRE = JVM + Java运行环境支持  
   JDK = JRE + Java开发工具
 
   Java 安装和配置：  

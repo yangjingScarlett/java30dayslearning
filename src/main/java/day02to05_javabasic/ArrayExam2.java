@@ -3,11 +3,15 @@ package day02to05_javabasic;
 public class ArrayExam2 {
 
   public static void main(String[] args) {
-    int[] arr = {12, 9, 23, 77, 6, 34};
+    int[] arr = new int[10];
+    for (int i = 0; i < arr.length; i++) {
+      arr[i] = (int) (Math.random() * 10);
+    }
     System.out.print("初始的数组： ");
     printArray(arr);
-    //sortSelect(arr);
-    sortBubble(arr);
+    // sortSelect(arr);
+    // sortBubble(arr);
+    sortInsert(arr);
     System.out.print("排序后数组： ");
     printArray(arr);
   }
@@ -31,15 +35,44 @@ public class ArrayExam2 {
   /**
    * 冒泡排序逻辑：依次比较左右两个位置的值，每次都将最大值放最后。
    */
+//  public static void sortBubble(int[] arr) {
+//    for (int i = 0; i < arr.length - 1; i++) {
+//      for (int j = 0; j < arr.length - 1 - i; j++) { // j < arr.length - i 会报错，因为下面有 arr[j+1]
+//        if (arr[j] > arr[j + 1]) {
+//          swap(arr, j, j + 1);
+//        }
+//      }
+//    }
+//
+//  }
   public static void sortBubble(int[] arr) {
-    for (int i = 0; i < arr.length - 1; i++) {
-      for (int j = 0; j < arr.length - 1 - i; j++) { // j < arr.length - i 会报错，因为下面有 arr[j+1]
-        if (arr[j] > arr[j + 1]) {
-          swap(arr, j, j + 1);
+    for (int i = arr.length; i > 0; i--) {
+      for (int j = 0; j < i - 1; j++) {
+        int before = arr[j];
+        int after = arr[j + 1];
+        if (before > after) {
+          arr[j] = after;
+          arr[j + 1] = before;
         }
       }
     }
+  }
 
+
+  public static void sortInsert(int[] arr) {
+
+    for (int i = 1; i < arr.length; i++) {
+      int selected = arr[i];
+      int j;
+      for (j = i; j > 0; j--) {
+        if (arr[j - 1] > selected) {
+          arr[j] = arr[j - 1];
+        } else {
+          break;
+        }
+      }
+      arr[j] = selected;
+    }
   }
 
   public static void printArray(int[] arr) {

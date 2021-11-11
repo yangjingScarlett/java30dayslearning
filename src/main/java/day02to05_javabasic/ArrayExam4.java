@@ -3,9 +3,12 @@ package day02to05_javabasic;
 public class ArrayExam4 {
 
   public static void main(String[] args) {
-    int[] arr = {3, 55, 8, 44};
+    int[] arr = new int[9];
+    for (int i = 0; i < arr.length; i++) {
+      arr[i] = (int) (Math.random() * 10);
+    }
     printArray(arr);
-    reverse(arr);
+    reverse2(arr);
     printArray(arr);
   }
 
@@ -21,6 +24,12 @@ public class ArrayExam4 {
   public static void reverse(int[] arr) {
     for (int i = 0, j = arr.length - 1; i < j; i++, j--) {
       swap(arr, i, j);
+    }
+  }
+
+  public static void reverse2(int[] arr) {
+    for (int i = 0; i < arr.length - i - 1; i++) {
+      swap(arr, i, arr.length - i - 1);
     }
   }
 
