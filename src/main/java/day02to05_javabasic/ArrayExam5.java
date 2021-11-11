@@ -5,13 +5,22 @@ import java.util.Arrays;
 public class ArrayExam5 {
 
   public static void main(String[] args) {
-    int[] arr = {3, 9, 13, 14, 18, 25, 49, 50, 53, 66};
-    int index = getInsertPoint(arr, 47);
+    int[] arr = new int[10];
+    for (int i = 0; i < arr.length; i++) {
+      if (i == 0) {
+        arr[i] = (int) (Math.random() * 100);
+      } else {
+        arr[i] = (int) (arr[i - 1] + Math.random() * 10);
+      }
+    }
+
+    printArray(arr);
+    int index = getInsertPoint(arr, 119);
     System.out.println(index);
 
     // Arrays.binarySearch 是java做二分查找的内部方法，如果找到返回所在位置，没找到的话返回 -(min + 1); 表示插入点的位置是第 min + 1个。
     // - 号是为了表示没找到，(low + 1) 是因为如果插入点的位置是0的话，那么 -0 还是0 会有歧义，所以干脆写成 -1，表示插入点是第一个位置。
-    int index2 = Arrays.binarySearch(arr, 47);
+    int index2 = Arrays.binarySearch(arr, 119);
     System.out.println("index2 = " + index2);
   }
 
@@ -42,4 +51,14 @@ public class ArrayExam5 {
     return min;
   }
 
+  public static void printArray(int[] arr) {
+    System.out.print("[");
+    for (int i = 0; i < arr.length; i++) {
+      if (i != arr.length - 1) {
+        System.out.print(arr[i] + ", ");
+      } else {
+        System.out.println(arr[i] + "]");
+      }
+    }
+  }
 }
