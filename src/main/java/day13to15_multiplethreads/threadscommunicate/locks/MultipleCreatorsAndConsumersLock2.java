@@ -1,9 +1,8 @@
-package day13_multiplethreads.threadscommunicate.locks;
+package day13to15_multiplethreads.threadscommunicate.locks;
 
 import static java.lang.Thread.currentThread;
-import static java.lang.Thread.sleep;
 
-import day13_multiplethreads.threadscommunicate.Product;
+import day13to15_multiplethreads.threadscommunicate.Product;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Condition;
@@ -11,79 +10,69 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import lombok.AllArgsConstructor;
 
-
 /**
- * java1.4: concurrent related: synchronized, wait...notify
+ * A great benefit of Condition objects is it is a middle layer of Lock and Monitor functions.
  * <p>
- * java 1.5: concurrent related: Lock, Condition(await...signal)
- * <p>
- * Lock can totally replace synchronized, but need to pay attention to the condition. This class can
- * work successfully, but still has efficiency problem. signalAll() will signal all threads, but we
- * only need to signal one opposite thread
+ * A lock can have several condition objects, we can use each to do specific monitor.
  */
-public class MultipleCreatorsAndConsumersLock {
+public class MultipleCreatorsAndConsumersLock2 {
 
   public static void main(String[] args) {
     List<Product> products = new ArrayList<>();
     Lock lock = new ReentrantLock();
-    Condition condition = lock.newCondition();
-    Creator7 creator = new Creator7(products, lock, condition);
-    Consumer7 consumer = new Consumer7(products, lock, condition);
+    Condition con1 = lock.newCondition();
+    Condition con2 = lock.newCondition();
+    Creator8 creator = new Creator8(products, lock, con1, con2);
+    Consumer8 consumer = new Consumer8(products, lock, con1, con2);
 
     Thread t11 = new Thread(creator);
     Thread t12 = new Thread(creator);
-    Thread t13 = new Thread(creator);
-    Thread t14 = new Thread(creator);
     Thread t21 = new Thread(consumer);
     Thread t22 = new Thread(consumer);
-    Thread t23 = new Thread(consumer);
-    Thread t24 = new Thread(consumer);
     t11.start();
     t12.start();
-    t13.start();
-    t14.start();
     t21.start();
     t22.start();
-    t23.start();
-    t24.start();
   }
-
 }
 
 
-class Creator7 implements Runnable {
+class Creator8 implements Runnable {
 
   private int num = 1;
   private final List<Product> products;
   private final Lock lock;
-  private final Condition condition;
+  private final Condition creatorCondition;
+  private final Condition consumerCondition;
 
-  public Creator7(List<Product> products, Lock lock, Condition condition) {
+  public Creator8(List<Product> products, Lock lock, Condition creatorCondition,
+      Condition consumerCondition) {
     this.products = products;
     this.lock = lock;
-    this.condition = condition;
+    this.creatorCondition = creatorCondition;
+    this.consumerCondition = consumerCondition;
   }
 
   @Override
   public void run() {
+    createProduct();
     try {
-      sleep(100);
+      Thread.sleep(1000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    createProduct();
   }
 
   private void createProduct() {
     try {
       lock.lock();
       while (true) {
-        if (products.size() < 1) { // assume the list can have 100 breads most
+        if (products.size() < 1) {
           System.out.println(currentThread().getName() + " - Creates id: " + num);
           products.add(new Product(num++, "bread"));
-          condition.signalAll(); // after creating then signal
+          consumerCondition.signal();
         } else {
-          condition.await();
+          creatorCondition.await();
         }
       }
     } catch (InterruptedException e) {
@@ -95,19 +84,15 @@ class Creator7 implements Runnable {
 }
 
 @AllArgsConstructor
-class Consumer7 implements Runnable {
+class Consumer8 implements Runnable {
 
   private final List<Product> products;
   private Lock lock;
-  private Condition condition;
+  private Condition creatorCondition;
+  private Condition consumerCondition;
 
   @Override
   public void run() {
-    try {
-      sleep(100);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
     consume();
   }
 
@@ -120,9 +105,9 @@ class Consumer7 implements Runnable {
               currentThread().getName() + " - Consumes id: " + products.get(0).getId());
           System.out.println();
           products.remove(0);
-          condition.signalAll();
+          creatorCondition.signal();
         } else {
-          condition.await();
+          consumerCondition.await();
         }
       }
     } catch (InterruptedException e) {
@@ -132,3 +117,4 @@ class Consumer7 implements Runnable {
     }
   }
 }
+

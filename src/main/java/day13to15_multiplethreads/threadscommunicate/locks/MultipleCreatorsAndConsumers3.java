@@ -1,8 +1,8 @@
-package day13_multiplethreads.threadscommunicate.locks;
+package day13to15_multiplethreads.threadscommunicate.locks;
 
 import static java.lang.Thread.currentThread;
 
-import day13_multiplethreads.threadscommunicate.Product;
+import day13to15_multiplethreads.threadscommunicate.Product;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;

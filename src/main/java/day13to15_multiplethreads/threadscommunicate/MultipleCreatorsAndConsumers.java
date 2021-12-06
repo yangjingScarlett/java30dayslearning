@@ -1,4 +1,4 @@
-package day13_multiplethreads.threadscommunicate;
+package day13to15_multiplethreads.threadscommunicate;
 
 import static java.lang.Thread.currentThread;
 
@@ -7,16 +7,20 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 
 /**
- * This class if for fixing the issue of MultipleCreatorsAndConsumers: deadlock
+ * CreatorAndConsumer4 works fine, it has 1 creator thread and 1 consumer thread. Now we want to
+ * create multiple creator threads and multiple consumer threads. Simply creating multiple threads
+ * to have a try
  * <p>
- * Solution: instead of notify(), using notifyAll()
+ * Problem: It will cause deadlock, because notify() only notify one single thread, for example,
+ * creator creates one product then it calls notify, wants to notify consumer, but since creator has
+ * multiple threads, it may notify another creator, in this case deadlock happens
  */
-public class MultipleCreatorsAndConsumers2 {
+public class MultipleCreatorsAndConsumers {
 
   public static void main(String[] args) {
     List<Product> products = new ArrayList<>();
-    Creator6 creator = new Creator6(products);
-    Consumer6 consumer = new Consumer6(products);
+    Creator5 creator = new Creator5(products);
+    Consumer5 consumer = new Consumer5(products);
 
     Thread t11 = new Thread(creator);
     Thread t12 = new Thread(creator);
@@ -35,15 +39,15 @@ public class MultipleCreatorsAndConsumers2 {
     t23.start();
     t24.start();
   }
+
 }
 
-
-class Creator6 implements Runnable {
+class Creator5 implements Runnable {
 
   private int num = 1;
   private final List<Product> products;
 
-  public Creator6(List<Product> products) {
+  public Creator5(List<Product> products) {
     this.products = products;
   }
 
@@ -60,7 +64,7 @@ class Creator6 implements Runnable {
             System.out.println(currentThread().getName() + " - Creates id: " + num);
             products.add(new Product(num++, "bread"));
           } else {
-            products.notifyAll();
+            products.notify();
             products.wait();
           }
         } catch (InterruptedException e) {
@@ -72,7 +76,7 @@ class Creator6 implements Runnable {
 }
 
 @AllArgsConstructor
-class Consumer6 implements Runnable {
+class Consumer5 implements Runnable {
 
   private final List<Product> products;
 
@@ -91,7 +95,7 @@ class Consumer6 implements Runnable {
             System.out.println();
             products.remove(0);
           } else {
-            products.notifyAll();
+            products.notify();
             products.wait();
           }
         } catch (InterruptedException e) {
@@ -101,4 +105,3 @@ class Consumer6 implements Runnable {
     }
   }
 }
-

@@ -1,4 +1,4 @@
-package day13_multiplethreads;
+package day13to15_multiplethreads;
 
 class TicketSale2 implements Runnable {
 

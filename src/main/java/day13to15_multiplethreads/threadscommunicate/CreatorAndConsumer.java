@@ -1,4 +1,4 @@
-package day13_multiplethreads.threadscommunicate;
+package day13to15_multiplethreads.threadscommunicate;
 
 import java.util.ArrayList;
 import java.util.List;
