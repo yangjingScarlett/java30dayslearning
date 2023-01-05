@@ -7,6 +7,10 @@ public class PolymorPhism {
     System.out.println(a.age);
     a.show();
     a.run();
+
+    a.printAge();
+    Dog dog = new Dog();
+    dog.printAge();
   }
 }
 
@@ -17,6 +21,10 @@ class Animal {
 
   void show() {
     System.out.println("Animal show.");
+  }
+
+  void printAge() {
+    System.out.println(this.age);
   }
 
   static void run() {
@@ -35,4 +43,8 @@ class Dog extends Animal {
   static void run() {
     System.out.println("Dog run.");
   }
+
+  // void printAge() {
+  //   System.out.println(this.age);
+  // }
 }
